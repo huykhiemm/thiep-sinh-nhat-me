@@ -47,12 +47,14 @@
 
     }
 
-    .card:hover,
-    .card.hovered,
-    .card:active {
-      transform: scale(1.05);
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.25);
-    }
+    .card:hover {
+  transform: none;
+  box-shadow: none;
+  background: inherit;
+  backdrop-filter: none;
+}
+
+
 
     .cover {
       position: absolute;
