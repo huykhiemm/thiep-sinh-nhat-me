@@ -18,23 +18,31 @@
 
     html, body {
       width: 100%;
-      height: 100%;
+      min-height: 100vh;
       background: #f2ebdd;
       display: flex;
       align-items: center;
       justify-content: center;
       font-family: 'Merriweather', serif;
+      overflow: auto;
+    }
+
+    body.card-open {
+      overflow: hidden;
     }
 
     .card {
       position: relative;
-      width: 90vw;
-      max-width: 400px;
-      height: 60vw;
-      max-height: 600px;
+      width: 100%;
+      max-width: 500px;
+      margin: auto;
+      padding: 1rem;
       perspective: 1200px;
       transition: transform 0.4s ease, box-shadow 0.4s ease;
       cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .card:hover,
@@ -54,7 +62,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: opacity 0.8s ease;
+      transition: transform 0.6s ease;
       z-index: 2;
     }
 
@@ -69,86 +77,84 @@
       font-family: 'Great Vibes', cursive;
       font-size: 1.8rem;
       box-shadow: inset 0 0 4px rgba(0,0,0,0.2);
-      animation: glow 1.5s ease-in-out infinite alternate;
+      transition: box-shadow 0.3s ease;
     }
 
-    @keyframes glow {
-      from {
-        box-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37;
-      }
-      to {
-        box-shadow: 0 0 20px #ffdd80, 0 0 30px #ffdd80;
-      }
+    .cover .seal:hover {
+      box-shadow: 0 0 10px #ffdd80, inset 0 0 4px rgba(0,0,0,0.2);
+    }
+
+    .cover.drop {
+      transform: translateY(120%);
+    }
+
+    .cover.hidden {
+      display: none;
     }
 
     .paper {
-      position: absolute;
-      top: 50%; left: 50%;
-      width: 100%; height: 100%;
+      position: relative;
+      width: 100%;
       background: #ffffff;
       border: 2px solid #d4af37;
       box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
-      transform: translate(-50%, -50%) translateY(40px) scale(0.9);
-      opacity: 0;
       padding: 2rem 1.5rem;
       text-align: center;
-      transition: opacity 0.8s ease 0.8s, transform 0.8s ease 0.8s;
+      transform: translateY(30px) scale(0.95);
+      transition: transform 0.8s ease 0.8s;
       z-index: 1;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+
+    .card.open .paper {
+      transform: translateY(0) scale(1);
     }
 
     .paper .title {
       font-family: 'Gravitas One', serif;
-      font-size: 2rem;
+      font-size: clamp(1.4rem, 5vw, 2rem);
       color: #b06029;
       margin-bottom: 0.5rem;
     }
 
     .paper .name {
-      font-size: 2rem;
+      font-size: clamp(1.4rem, 5vw, 2rem);
       color: #333;
       margin-bottom: 0.3rem;
     }
 
     .paper .date {
-      font-size: 1.5rem;
+      font-size: clamp(1.1rem, 4vw, 1.5rem);
       color: #666;
       margin-bottom: 1rem;
     }
 
     .paper .message {
-  font-size: clamp(1rem, 2vw, 1.5rem);
-  color: #444;
-  line-height: 1.6;
-  max-width: 90%;
-  margin: 0 auto;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  padding: 0 1rem;
-}
-
-    .card.open .cover {
-      opacity: 0;
+      font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+      line-height: 1.6;
+      max-width: 95%;
+      margin: 0 auto;
+      padding: 0 1rem;
     }
 
-    .card.open .paper {
-      opacity: 1;
-      transform: translate(-50%, -50%) translateY(0) scale(1);
-    }
-
-    @media (min-width: 768px) {
+    @media (max-width: 480px) {
       .card {
-        width: 75vw;
-        height: 45vw;
+        width: 95vw;
+        aspect-ratio: 3 / 2;
       }
+
       .paper .title,
       .paper .name {
-        font-size: 2.5rem;
+        font-size: 1.4rem;
       }
+
       .paper .date {
-        font-size: 2rem;
+        font-size: 1.1rem;
       }
+
       .paper .message {
-        font-size: 1.8rem;
+        font-size: 1rem;
       }
     }
   </style>
@@ -177,12 +183,18 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const card = document.getElementById('card');
+      const cover = document.querySelector('.cover');
       const audio = document.getElementById('birthdayAudio');
 
       card.addEventListener('click', () => {
         if (!card.classList.contains('open')) {
-          card.classList.add('open');
+          document.body.classList.add('card-open');
           audio.play();
+
+          setTimeout(() => {
+            card.classList.add('open');
+            cover.classList.add('drop');
+          }, 500);
         }
       });
 
@@ -192,6 +204,12 @@
 
       card.addEventListener('touchend', () => {
         card.classList.remove('hovered');
+      });
+
+      cover.addEventListener('transitionend', () => {
+        if (card.classList.contains('open')) {
+          cover.classList.add('hidden');
+        }
       });
     });
   </script>
