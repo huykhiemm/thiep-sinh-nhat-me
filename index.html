@@ -115,7 +115,7 @@
       overflow-wrap: break-word;
       word-break: break-word;
       border-radius: 12px;
-
+border-radius: 12px;
     }
 
     .card.open .paper {
@@ -168,15 +168,16 @@
     font-size: 0.95rem;
   }
 }
+.seal {
+  text-align: center;
+  margin-top: 10px;
+}
+
 
   </style>
 </head>
-
-<body>
-  <div class="card" id="card">
-    <div class="cover">
-      <div class="seal">❤</div>
-    </div>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<body><div class="card" id="card"><div class="cover"><div class="seal">💝</div></div>
 
     <div class="paper">
       <div class="title">HAPPY BIRTHDAY!</div>
@@ -191,39 +192,50 @@
   </div>
 
   <audio id="birthdayAudio" src="nhac.mp3" preload="auto"></audio>
+<!-- Thư viện pháo hoa -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const card = document.getElementById('card');
-      const cover = document.querySelector('.cover');
-      const audio = document.getElementById('birthdayAudio');
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const card = document.getElementById('card');
+  const cover = document.querySelector('.cover');
+  const audio = document.getElementById('birthdayAudio');
 
-      card.addEventListener('click', () => {
-        if (!card.classList.contains('open')) {
-          document.body.classList.add('card-open');
-          audio.play();
+  // Khi bấm vào thiệp
+  card.addEventListener('click', () => {
+    if (!card.classList.contains('open')) {
+      document.body.classList.add('card-open');
+      audio.play();
 
-          setTimeout(() => {
-            card.classList.add('open');
-            cover.classList.add('drop');
-          }, 500);
-        }
+      // Delay để tạo cảm giác thiệp rớt
+      setTimeout(() => {
+        card.classList.add('open');
+        cover.classList.add('drop');
+      }, 500);
+    }
+  });
+
+  // Khi hiệu ứng rớt xong
+  cover.addEventListener('transitionend', () => {
+    if (card.classList.contains('open')) {
+      cover.classList.add('hidden');
+
+      // 🎉 Bắn pháo hoa lần 1
+      confetti({
+        particleCount: 150,
+        spread: 100,
+        origin: { y: 0.6 }
       });
 
-      card.addEventListener('touchstart', () => {
-        card.classList.add('hovered');
-      });
+      // Bắn thêm vài lần cho đẹp
+      setTimeout(() => {
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+      }, 500);
 
-      card.addEventListener('touchend', () => {
-        card.classList.remove('hovered');
-      });
-
-      cover.addEventListener('transitionend', () => {
-        if (card.classList.contains('open')) {
-          cover.classList.add('hidden');
-        }
-      });
-    });
-  </script>
-</body>
-</html>
+      setTimeout(() => {
+        confetti({ particleCount: 100, spread: 120, origin: { y: 0.6 } });
+      }, 1000);
+    }
+  });
+});
+</script>
