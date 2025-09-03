@@ -6,12 +6,10 @@
   <title>Thiệp Sinh Nhật – Phạm Thị Thu Nguyệt</title>
 
   <!-- Google Fonts -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Gravitas+One&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Gravitas+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Great+Vibes&display=swap" rel="stylesheet">
 
   <style>
-    /* reset cơ bản */
     *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
@@ -25,28 +23,27 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
       font-family: 'Merriweather', serif;
     }
 
-    /* wrapper thiệp */
     .card {
       position: relative;
-      width: 75vw;
-      max-width: 900px;
-      height: 45vw;
-      max-height: 540px;
+      width: 90vw;
+      max-width: 400px;
+      height: 60vw;
+      max-height: 600px;
       perspective: 1200px;
       transition: transform 0.4s ease, box-shadow 0.4s ease;
+      cursor: pointer;
     }
+
     .card:hover,
     .card.hovered,
     .card:active {
-      transform: scale(1.1);
+      transform: scale(1.05);
       box-shadow: 0 0 30px rgba(0, 0, 0, 0.25);
     }
 
-    /* bìa thiệp (cover) */
     .cover {
       position: absolute;
       top: 0; left: 0;
@@ -61,7 +58,6 @@
       z-index: 2;
     }
 
-    /* con dấu sáp đỏ */
     .cover .seal {
       width: 60px; height: 60px;
       background: #d4af37;
@@ -73,22 +69,18 @@
       font-family: 'Great Vibes', cursive;
       font-size: 1.8rem;
       box-shadow: inset 0 0 4px rgba(0,0,0,0.2);
-      /* các thuộc tính cũ giữ nguyên */
-  animation: glow 1.5s ease-in-out infinite alternate;
+      animation: glow 1.5s ease-in-out infinite alternate;
     }
 
-@keyframes glow {
-  from {
-    box-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37;
-  }
-  to {
-    box-shadow: 0 0 20px #ffdd80, 0 0 30px #ffdd80;
-  }
-}
+    @keyframes glow {
+      from {
+        box-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37;
+      }
+      to {
+        box-shadow: 0 0 20px #ffdd80, 0 0 30px #ffdd80;
+      }
+    }
 
-
-
-    /* tờ giấy bên trong */
     .paper {
       position: absolute;
       top: 50%; left: 50%;
@@ -98,72 +90,88 @@
       box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
       transform: translate(-50%, -50%) translateY(40px) scale(0.9);
       opacity: 0;
-      padding: 2.5rem 2rem;
+      padding: 2rem 1.5rem;
       text-align: center;
-      transition:
-        opacity 0.8s ease 0.8s,
-        transform 0.8s ease 0.8s;
+      transition: opacity 0.8s ease 0.8s, transform 0.8s ease 0.8s;
       z-index: 1;
     }
 
-    /* nội dung tờ giấy */
     .paper .title {
       font-family: 'Gravitas One', serif;
-      font-weight: 700;
-      font-size: 2.5rem;
+      font-size: 2rem;
       color: #b06029;
       margin-bottom: 0.5rem;
     }
+
     .paper .name {
-      font-size: 2.5rem;
+      font-size: 2rem;
       color: #333;
       margin-bottom: 0.3rem;
     }
+
     .paper .date {
-      font-size: 2rem;
+      font-size: 1.5rem;
       color: #666;
       margin-bottom: 1rem;
     }
-    .paper .message {
-      font-size: 1.8rem;
-      color: #444;
-      line-height: 1.5;
-      max-width: 80%;
-      margin: 0 auto;
-    }
 
-    /* trạng thái mở thiệp */
+    .paper .message {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  color: #444;
+  line-height: 1.6;
+  max-width: 90%;
+  margin: 0 auto;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  padding: 0 1rem;
+}
+
     .card.open .cover {
       opacity: 0;
     }
+
     .card.open .paper {
       opacity: 1;
       transform: translate(-50%, -50%) translateY(0) scale(1);
+    }
+
+    @media (min-width: 768px) {
+      .card {
+        width: 75vw;
+        height: 45vw;
+      }
+      .paper .title,
+      .paper .name {
+        font-size: 2.5rem;
+      }
+      .paper .date {
+        font-size: 2rem;
+      }
+      .paper .message {
+        font-size: 1.8rem;
+      }
     }
   </style>
 </head>
 
 <body>
   <div class="card" id="card">
-    <!-- bìa thiệp -->
     <div class="cover">
       <div class="seal">❤</div>
     </div>
 
-    <!-- tờ giấy bên trong -->
     <div class="paper">
       <div class="title">HAPPY BIRTHDAY!</div>
       <div class="name">Phạm Thị Thu Nguyệt</div>
       <div class="date">04/09/1978 – 04/09/2025</div>
       <div class="message">
-        Chúc mẹ luôn dồi dào sức khỏe, tràn ngập niềm vui và bình an.
-        Cảm ơn mẹ đã cho con tuổi thơ êm đềm, luôn yêu thương và che chở.
+        Chúc mẹ luôn dồi dào sức khỏe, tràn ngập niềm vui và bình an.<br>
+        Cảm ơn mẹ đã cho con tuổi thơ êm đềm, luôn yêu thương và che chở.<br>
         Mong mẹ mãi tươi trẻ, hạnh phúc bên con cháu.
       </div>
     </div>
   </div>
 
-  <!-- âm thanh sinh nhật -->
   <audio id="birthdayAudio" src="nhac.mp3" preload="auto"></audio>
 
   <script>
@@ -171,7 +179,6 @@
       const card = document.getElementById('card');
       const audio = document.getElementById('birthdayAudio');
 
-      // click hoặc tap để mở thiệp + phát nhạc
       card.addEventListener('click', () => {
         if (!card.classList.contains('open')) {
           card.classList.add('open');
@@ -179,10 +186,10 @@
         }
       });
 
-      // hover giả cho mobile
       card.addEventListener('touchstart', () => {
         card.classList.add('hovered');
       });
+
       card.addEventListener('touchend', () => {
         card.classList.remove('hovered');
       });
