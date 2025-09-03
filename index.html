@@ -45,19 +45,7 @@
       justify-content: center;
       aspect-ratio: 3 / 2;
       border-radius: 12px;
-
     }
-
-    .card:hover {
-  transform: none;
-  box-shadow: none;
-  background: inherit;
-  backdrop-filter: none;
-  border-radius: 12px;
-
-}
-
-
 
     .cover {
       position: absolute;
@@ -71,7 +59,6 @@
       transition: transform 0.6s ease;
       z-index: 2;
       border-radius: 12px;
-
     }
 
     .cover .seal {
@@ -86,12 +73,6 @@
       font-size: 1.8rem;
       box-shadow: inset 0 0 4px rgba(0,0,0,0.2);
       transition: box-shadow 0.3s ease;
-      border-radius: 12px;
-
-    }
-
-    .cover .seal:hover {
-      box-shadow: 0 0 10px #ffdd80, inset 0 0 4px rgba(0,0,0,0.2);
     }
 
     .cover.drop {
@@ -115,7 +96,6 @@
       overflow-wrap: break-word;
       word-break: break-word;
       border-radius: 12px;
-border-radius: 12px;
     }
 
     .card.open .paper {
@@ -149,36 +129,34 @@ border-radius: 12px;
       padding: 0 1rem;
     }
 
+    /* 📱 Mobile: thiệp đứng */
     @media (max-width: 480px) {
-  .card {
-    width: 95vw;
-    aspect-ratio: 3 / 2;
-  }
-
-  .paper .title,
-  .paper .name {
-    font-size: 1.3rem;
-  }
-
-  .paper .date {
-    font-size: 1rem;
-  }
-
-  .paper .message {
-    font-size: 0.95rem;
-  }
-}
-.seal {
-  text-align: center;
-  margin-top: 10px;
-}
-
-
+      .card {
+        width: 90vw;
+        aspect-ratio: 2 / 3;
+      }
+      .cover .seal {
+        width: 80px;
+        height: 80px;
+        font-size: 2.2rem;
+      }
+      .paper .title,
+      .paper .name {
+        font-size: 1.5rem;
+      }
+      .paper .date {
+        font-size: 1.1rem;
+      }
+      .paper .message {
+        font-size: 1rem;
+      }
+    }
   </style>
 </head>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-<body><div class="card" id="card"><div class="cover"><div class="seal">💝</div></div>
 
+<body>
+  <div class="card" id="card">
+    <div class="cover"><div class="seal">💝</div></div>
     <div class="paper">
       <div class="title">HAPPY BIRTHDAY!</div>
       <div class="name">Phạm Thị Thu Nguyệt</div>
@@ -192,50 +170,50 @@ border-radius: 12px;
   </div>
 
   <audio id="birthdayAudio" src="nhac.mp3" preload="auto"></audio>
-<!-- Thư viện pháo hoa -->
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const card = document.getElementById('card');
-  const cover = document.querySelector('.cover');
-  const audio = document.getElementById('birthdayAudio');
+  <!-- Thư viện pháo hoa -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-  // Khi bấm vào thiệp
-  card.addEventListener('click', () => {
-    if (!card.classList.contains('open')) {
-      document.body.classList.add('card-open');
-      audio.play();
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const card = document.getElementById('card');
+    const cover = document.querySelector('.cover');
+    const audio = document.getElementById('birthdayAudio');
 
-      // Delay để tạo cảm giác thiệp rớt
-      setTimeout(() => {
-        card.classList.add('open');
-        cover.classList.add('drop');
-      }, 500);
-    }
+    card.addEventListener('click', () => {
+      if (!card.classList.contains('open')) {
+        document.body.classList.add('card-open');
+        audio.play();
+
+        setTimeout(() => {
+          card.classList.add('open');
+          cover.classList.add('drop');
+        }, 500);
+      }
+    });
+
+    cover.addEventListener('transitionend', () => {
+      if (card.classList.contains('open')) {
+        cover.classList.add('hidden');
+
+        // 🎉 Bắn pháo hoa lần 1
+        confetti({
+          particleCount: window.innerWidth < 500 ? 200 : 150,
+          spread: 100,
+          origin: { y: 0.6 }
+        });
+
+        // Bắn thêm vài lần
+        setTimeout(() => {
+          confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+        }, 500);
+
+        setTimeout(() => {
+          confetti({ particleCount: 120, spread: 120, origin: { y: 0.6 } });
+        }, 1000);
+      }
+    });
   });
-
-  // Khi hiệu ứng rớt xong
-  cover.addEventListener('transitionend', () => {
-    if (card.classList.contains('open')) {
-      cover.classList.add('hidden');
-
-      // 🎉 Bắn pháo hoa lần 1
-      confetti({
-        particleCount: 150,
-        spread: 100,
-        origin: { y: 0.6 }
-      });
-
-      // Bắn thêm vài lần cho đẹp
-      setTimeout(() => {
-        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-      }, 500);
-
-      setTimeout(() => {
-        confetti({ particleCount: 100, spread: 120, origin: { y: 0.6 } });
-      }, 1000);
-    }
-  });
-});
-</script>
+  </script>
+</body>
+</html>
